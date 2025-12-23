@@ -291,8 +291,10 @@ const urlDetector = {
     }
     
     // Frase que indica que el cliente cargó (normalizada)
-    const fraseObjetivo = 'segui los pasos a continuacion para que tu acr3dit4ci0n se procese sin demoras';
-    console.log(`🎯 [Carga] Buscando frase: "${fraseObjetivo}"`);
+    // Acepta variantes: "acr3dit4ci0n" (con 0) o "acr3dit4cion" (con o)
+    const fraseObjetivo = 'segui los pasos a continuacion para que tu acr3dit4c';
+    console.log(`🎯 [Carga] Buscando frase: "${fraseObjetivo}..." (con variantes de 0/o y n/on)`);
+    const patronCarga = /segui\s+los\s+pasos\s+a\s+continuaci[oó]n\s+para\s+que\s+tu\s+acr3dit4c(i[o0]|i[o0]n|on)\s+se\s+procese\s+sin\s+demoras/i;
     
     // Obtener TODOS los mensajes
     const allMessages = messagesContainer.querySelectorAll('div[id^="message-"]');
@@ -325,8 +327,9 @@ const urlDetector = {
       
       console.log(`🔍 [Carga] Texto normalizado completo: ${textoNormalizado.substring(0, 100)}`);
       
-      if (textoNormalizado.includes(fraseObjetivo)) {
-        console.log('✅ [URL Detector] Mensaje de CARGA detectado en texto completo');
+      // Usar patrón regex para buscar variantes (0/o, n/on)
+      if (patronCarga.test(textoNormalizado)) {
+        console.log('✅ [URL Detector] Mensaje de CARGA detectado (variante detectada)');
         return true;
       }
     }
@@ -637,9 +640,9 @@ window.testDeteccionCarga = function() {
   console.log('🧪 INICIANDO TEST DE DETECCIÓN DE CARGA');
   console.log('═══════════════════════════════════════════════════════\n');
   
-  const fraseObjetivo = 'segui los pasos a continuacion para que tu acr3dit4ci0n se procese sin demoras';
-  console.log('📝 Frase que se busca (normalizada):');
-  console.log(`   "${fraseObjetivo}"\n`);
+  const patronCarga = /segui\s+los\s+pasos\s+a\s+continuaci[oó]n\s+para\s+que\s+tu\s+acr3dit4c(i[o0]|i[o0]n|on)\s+se\s+procese\s+sin\s+demoras/i;
+  console.log('📝 Patrón que se busca (acepta variantes 0/o):');
+  console.log(`   Detecta: acr3dit4ci0n, acr3dit4cion, acr3dit4con, etc.\n`);
   
   // 1. Verificar contenedor
   const messagesContainer = document.querySelector('.MuiBox-root.mui-ylizsf');
@@ -749,8 +752,8 @@ window.testDeteccionCarga = function() {
   console.log('═══════════════════════════════════════════════════════\n');
   
   if (!encontrado && mensajesDelAgenteCount > 0) {
-    console.log('💡 SUGERENCIA: Revisa si la frase en el mensaje es exactamente:');
-    console.log('   "Seguí los pasos a continuación para que tu ACR3DIT4CI0N se procese sin demoras"');
+    console.log('💡 SUGERENCIA: Revisa si la frase en el mensaje es variante de:');
+    console.log('   "Seguí los pasos a continuación para que tu ACR3DIT4C[i0/ion/on] se procese sin demoras"');
   }
   
   return encontrado;
