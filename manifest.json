@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "Observador AutoTag",
+  "version": "1.0",
+  "description": "Observa y etiqueta chats automáticamente en Clientify con nomenclatura inteligente.",
+  "permissions": ["tabs", "scripting", "activeTab", "storage"],
+  "host_permissions": ["https://new.clientify.com/*"],
+  "background": {
+    "service_worker": "codigo/background.js"
+  },
+  "action": {
+    "default_popup": "codigo/popup.html",
+    "default_icon": {
+      "16": "codigo/icon.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://new.clientify.com/team-inbox/*"],
+      "js": ["codigo/chatOpener.js", "codigo/chatTagger.js", "codigo/elementos observer/url-mapper.js", "codigo/elementos observer/url-detector.js", "codigo/chatObserver.js", "codigo/content.js"]
+    }
+  ]
+}

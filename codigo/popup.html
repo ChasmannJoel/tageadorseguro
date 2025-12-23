@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Observador AutoTag</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        width: 450px;
+        height: 500px;
+        background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .container {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        padding: 12px;
+        gap: 10px;
+      }
+      
+      .header {
+        text-align: center;
+        padding: 8px 0;
+        border-bottom: 2px solid #334155;
+      }
+      
+      .header h2 {
+        font-size: 14px;
+        color: #e2e8f0;
+        margin-bottom: 2px;
+      }
+      
+      .header p {
+        font-size: 10px;
+        color: #94a3b8;
+      }
+      
+      .controls {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+      }
+      
+      button {
+        padding: 8px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 11px;
+        color: white;
+        transition: all 0.2s;
+      }
+      
+      button:hover:not(:disabled) {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      }
+      
+      button:active:not(:disabled) {
+        transform: translateY(0);
+      }
+      
+      button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      
+      #observarChatsBtn {
+        background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+      }
+      
+      #detenerChatsBtn {
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+      }
+      
+      #limpiarHistorialBtn {
+        background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+        grid-column: 1 / -1;
+      }
+      
+      .log-container {
+        flex: 1;
+        background: #0f172a;
+        border-radius: 4px;
+        border: 1px solid #334155;
+        overflow-y: auto;
+        padding: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        font-size: 11px;
+        font-family: 'Courier New', monospace;
+      }
+      
+      .log-entry {
+        padding: 4px 6px;
+        border-radius: 2px;
+        word-break: break-word;
+        line-height: 1.3;
+      }
+      
+      .log-entry.info {
+        color: #94a3b8;
+        background: rgba(148, 163, 184, 0.1);
+      }
+      
+      .log-entry.success {
+        color: #86efac;
+        background: rgba(134, 239, 172, 0.1);
+      }
+      
+      .log-entry.warning {
+        color: #fbbf24;
+        background: rgba(251, 191, 36, 0.1);
+      }
+      
+      .log-entry.error {
+        color: #f87171;
+        background: rgba(248, 113, 113, 0.1);
+      }
+      
+      .log-entry.action {
+        color: #60a5fa;
+        background: rgba(96, 165, 250, 0.1);
+      }
+      
+      .empty-log {
+        color: #64748b;
+        text-align: center;
+        padding: 10px;
+        font-style: italic;
+      }
+      
+      /* Scrollbar styling */
+      .log-container::-webkit-scrollbar {
+        width: 6px;
+      }
+      
+      .log-container::-webkit-scrollbar-track {
+        background: rgba(51, 65, 85, 0.5);
+        border-radius: 3px;
+      }
+      
+      .log-container::-webkit-scrollbar-thumb {
+        background: #64748b;
+        border-radius: 3px;
+      }
+      
+      .log-container::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h2>🔍 Observador AutoTag</h2>
+        <p>En vivo - Lo que está haciendo ahora</p>
+      </div>
+      
+      <div class="controls">
+        <button id="observarChatsBtn">▶️ Iniciar</button>
+        <button id="detenerChatsBtn" disabled>⏹️ Detener</button>
+        <button id="limpiarHistorialBtn">🗑️ Limpiar</button>
+      </div>
+      
+      <div class="log-container" id="logContainer">
+        <div class="empty-log">Esperando actividad...</div>
+      </div>
+    </div>
+    
+    <script src="popup.js"></script>
+  </body>
+</html>
